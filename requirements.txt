@@ -1,0 +1,6 @@
+streamlit
+supabase
+replicate
+reportlab
+requests
+beautifulsoup4
