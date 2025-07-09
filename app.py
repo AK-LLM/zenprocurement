@@ -32,7 +32,11 @@ elif page == "Product Sourcing":
     if st.button("Search"):
         st.write(f"Searching for: {product_query}")
         # Log search
-        supabase.table("search_logs").insert({"user_id": st.session_state.user, "search_query": product_query, "created_at": datetime.now().isoformat()}).execute()
+        supabase.table("search_logs").insert({
+            "user_id": st.session_state.user,
+            "search_query": product_query,
+            "created_at": datetime.now().isoformat()
+        }).execute()
         st.write("Mock search results here. Live supplier API integration in Phase 2.")
 
 # AI Suggestions
@@ -59,14 +63,24 @@ elif page == "Quotes":
     product_name = st.text_input("Product name")
     quantity = st.number_input("Quantity", min_value=1, step=1)
     if st.button("Generate PDF Quote"):
-        generate_quote_pdf(product_name, quantity)
-        st.success("Quote PDF generated and downloaded.")
+        pdf_file = generate_quote_pdf(product_name, quantity)
+        with open(pdf_file, "rb") as f:
+            st.download_button(
+                label="Download Quote PDF",
+                data=f,
+                file_name=pdf_file,
+                mime="application/pdf"
+            )
+        st.success("Quote PDF generated. Click the button above to download.")
 
 # Feedback
 elif page == "Feedback":
     st.title("Feedback")
     feedback_text = st.text_area("Enter your feedback")
     if st.button("Submit Feedback"):
-        supabase.table("feedback").insert({"user_id": st.session_state.user, "feedback_text": feedback_text, "created_at": datetime.now().isoformat()}).execute()
+        supabase.table("feedback").insert({
+            "user_id": st.session_state.user,
+            "feedback_text": feedback_text,
+            "created_at": datetime.now().isoformat()
+        }).execute()
         st.success("Thank you for your feedback.")
-
