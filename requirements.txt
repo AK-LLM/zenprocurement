@@ -4,3 +4,12 @@ replicate
 reportlab
 requests
 beautifulsoup4
+pandas
+plotly
+pillow
+openai
+python-dotenv
+hashlib
+smtplib
+email
+secrets
